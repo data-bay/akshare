@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2020/8/21 13:58
+Date: 2020/10/11 13:58
 Desc: AkShare's pypi info file
 """
 import re
@@ -15,9 +15,9 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 def get_version_string():
     """
-    get the akshare version number
+    Get the akshare version number
     :return: version number
-    :rtype: str, e.g. '0.3.24'
+    :rtype: str, e.g. '0.6.24'
     """
     with open("akshare/__init__.py", "rb") as _f:
         version_line = re.search(
@@ -45,21 +45,19 @@ setuptools.setup(
         "pandas>=0.25",
         "requests>=2.22.0",
         "demjson>=2.2.4",
-        "pyexecjs>=1.5.1",
         "pillow>=6.2.0",
         "pypinyin>=0.35.0",
         "websocket-client>=0.56.0",
         "html5lib>=1.0.1",
-        "scikit-learn>=0.22",
-        "fonttools>=4.2.2",
         "xlrd>=1.2.0",
         "tqdm>=4.43.0",
         "openpyxl>=3.0.3",
         "jsonpath>=0.82",
         "tabulate>=0.8.6",
         "decorator>=4.4.2",
+        "py_mini_racer>=0.4.0",
     ],
-    package_data={"": ["*.py", "*.json", "*.pk", "*.woff", "*.js"]},
+    package_data={"": ["*.py", "*.json", "*.pk", "*.js"]},
     keywords=[
         "stock",
         "option",
@@ -80,6 +78,7 @@ setuptools.setup(
     classifiers=[
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],

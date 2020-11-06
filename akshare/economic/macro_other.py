@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2019/11/4 16:36
+Date: 2020/10/18 16:36
 Desc: 金十数据-其他-加密货币实时行情
 """
 import time
@@ -13,9 +13,9 @@ import requests
 from akshare.economic.cons import bitcoin_url, bitcoin_payload, bitcoin_headers
 
 
-def get_js_dc_current() -> pd.DataFrame:
+def crypto_js_spot() -> pd.DataFrame:
     """
-    主流数字货币的实时行情数据, 一次请求返回具体某一时刻行情数据
+    主流加密货币的实时行情数据, 一次请求返回具体某一时刻行情数据
     https://datacenter.jin10.com/reportType/dc_bitcoin_current
     :return: pandas.DataFrame
     """
@@ -76,7 +76,7 @@ def macro_fx_sentiment(start_date: str = "2020-04-22", end_date: str = "2020-04-
     return pd.DataFrame(res.json()["data"]["values"]).T
 
 
-def index_vix(start_date: str = "2020-04-22", end_date: str = "2020-04-22") -> pd.DataFrame:
+def index_vix(start_date: str = "2020-10-15", end_date: str = "2020-10-15") -> pd.DataFrame:
     """
     金十数据-市场异动-恐慌指数; 只能获取当前交易日近一个月内的数据
     https://datacenter.jin10.com/market
@@ -115,13 +115,13 @@ def index_vix(start_date: str = "2020-04-22", end_date: str = "2020-04-22") -> p
 
 
 if __name__ == "__main__":
-    get_js_dc_current_df = get_js_dc_current()
-    print(get_js_dc_current_df)
+    crypto_js_spot_df = crypto_js_spot()
+    print(crypto_js_spot_df)
 
     test_date = datetime.now().date().isoformat()
 
     macro_fx_sentiment_df = macro_fx_sentiment(start_date=test_date, end_date=test_date)
     print(macro_fx_sentiment_df)
 
-    macro_vix_df = index_vix(start_date=test_date, end_date=test_date)
-    print(macro_vix_df)
+    index_vix_df = index_vix(start_date=test_date, end_date=test_date)
+    print(index_vix_df)

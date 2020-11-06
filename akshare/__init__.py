@@ -1,4 +1,4 @@
-"""AkShare 是基于 Python 的开源金融数据接口库, 目的是实现对股票, 期货, 期权, 基金, 债券, 外汇等金融产品和另类数据从数据采集, 数据清洗到数据下载的工具, 满足金融数据科学家, 数据科学爱好者在数据获取方面的需求. 它的特点是利用 AkShare 获取的是基于可信任数据源发布的原始数据, 广大数据科学家可以利用原始数据进行再加工, 从而得出科学的结论."""
+"""AkShare 是基于 Python 的开源财经数据接口库, 实现对股票, 期货, 期权, 基金, 债券, 外汇等金融产品的量价数据, 基本面数据和另类数据从数据采集, 数据清洗到数据下载的工具, 满足金融数据科学家, 数据科学爱好者在数据获取方面的需求. 它的特点是利用 AkShare 获取的是基于可信任数据源发布的原始数据, 广大数据科学家可以利用原始数据进行再加工, 从而得出科学的结论."""
 
 """
 版本更新记录:
@@ -227,7 +227,7 @@ https://cn.investing.com/rates-bonds/
 0.2.3
 增加金融期权
 0.2.4
-增加数字货币行情接口
+增加加密货币行情接口
 0.2.5
 增加 AkShare 接口导图
 0.2.6
@@ -649,7 +649,6 @@ macro_cons_gold_amount  # 全球最大黄金ETF—SPDR Gold Trust持仓报告
 macro_cons_silver_volume  # 全球最大白银ETF--iShares Silver Trust持仓报告
 macro_cons_silver_change  # 全球最大白银ETF--iShares Silver Trust持仓报告
 macro_cons_silver_amount  # 全球最大白银ETF--iShares Silver Trust持仓报告
-macro_cons_opec_near_change  # 欧佩克报告-变动
 macro_cons_opec_month  # 欧佩克报告-月度
 0.3.45
 增加中国证券投资基金业协会-信息公示
@@ -657,7 +656,6 @@ macro_cons_opec_month  # 欧佩克报告-月度
 amac_member_info # 中国证券投资基金业协会-信息公示-会员信息-会员机构综合查询
 # 中国证券投资基金业协会-信息公示-从业人员信息
 amac_person_org_list # 中国证券投资基金业协会-信息公示-从业人员信息-基金从业人员资格注册信息
-amac_person_org_list_ext # 中国证券投资基金业协会-信息公示-从业人员信息-基金从业人员资格注册外部公示信息
 # 中国证券投资基金业协会-信息公示-私募基金管理人公示
 amac_manager_info # 中国证券投资基金业协会-信息公示-私募基金管理人公示-私募基金管理人综合查询
 amac_manager_classify_info # 中国证券投资基金业协会-信息公示-私募基金管理人公示-私募基金管理人分类公示
@@ -671,9 +669,6 @@ amac_fund_account_info # 中国证券投资基金业协会-信息公示-基金�
 amac_fund_abs # 中国证券投资基金业协会-信息公示-基金产品公示-资产支持专项计划
 amac_futures_info # 中国证券投资基金业协会-信息公示-基金产品公示-期货公司集合资管产品公示
 # 中国证券投资基金业协会-信息公示-诚信信息
-amac_manager_xxgs_hmd # 中国证券投资基金业协会-信息公示-诚信信息-违反自律规则黑名单
-amac_manager_xxgs_jlcf # 中国证券投资基金业协会-信息公示-诚信信息-纪律处分
-amac_manager_xxgs_cxdj # 中国证券投资基金业协会-信息公示-诚信信息-撤销管理人登记的名单
 amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚信信息-已注销私募基金管理人名单
 0.3.46
 更新-商品期权-菜籽粕期权接口
@@ -1050,15 +1045,166 @@ amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚
 0.6.23: fix: fix currency_hist interface
 0.6.24: fix: fix stock_zh_kcb_spot interface
 0.6.25: add: add stock_register_kcb interface
+0.6.26: add: add stock_em_sy_list interface
+0.6.27: fix: fix stock_sector_detail interface
+0.6.28: add: add stock_register_cyb interface
+0.6.29: fix: fix stock_zh_a_daily interface
+0.6.30: add: add energy interface
+0.6.31: fix: fix energy interface
+0.6.32: fix: fix docs interface
+0.6.33: fix: fix get_roll_yield_bar interface
+0.6.34: fix: fix currency_investing and futures_inventory_em interface and add index_stock_cons_csindex interface
+0.6.35: fix: fix get_futures_daily interface
+0.6.36: fix: fix stock_info_a_code_name interface
+0.6.37: fix: fix stock_sector_detail interface
+0.6.38: fix: fix get_futures_daily interface
+0.6.39: add: add stock_em_xgsglb interface
+0.6.40: add: add stock_zh_a_new interface
+0.6.41: fix: fix get_ine_daily interface
+0.6.42: add: add bond_futures_deliverable_coupons interface
+0.6.43: fix: fix bond_futures_deliverable_coupons interface
+0.6.44: add: add futures_comex_inventory interface
+0.6.45: add: add macro_china_xfzxx interface
+0.6.46: add: add macro_china_reserve_requirement_ratio interface
+0.6.47: fix: fix franchise_china interface
+0.6.48: fix: fix get_rank_sum interface
+0.6.49: fix: fix get_dce_rank_table interface
+0.6.50: add: add macro_china_hgjck, macro_china_consumer_goods_retail interface
+0.6.51: fix: fix macro_china_hgjck interface
+0.6.52: add: add macro_china_society_electricity interface
+0.6.53: add: add macro_china_society_traffic_volume interface
+0.6.54: add: add macro_china_postal_telecommunicational interface
+0.6.55: add: add macro_china_international_tourism_fx interface
+0.6.56: add: add macro_china_swap_rate interface
+0.6.57: fix: fix stock_sina_lhb_detail_daily interface
+0.6.58: add: add bond_china_close_return interface
+0.6.59: add: add macro_china_passenger_load_factor interface
+0.6.60: fix: fix stock_sina_lhb_ggtj interface
+0.6.61: fix: fix option_czce_hist interface
+0.6.62: fix: fix sunrise_daily interface
+0.6.63: fix: fix get_roll_yield_bar interface
+0.6.64: add: add macro_china_insurance interface
+0.6.65: add: add macro_china_supply_of_money interface
+0.6.66: add: add support for python 3.9.0
+0.6.67: add: add macro_china_foreign_exchange_gold interface
+0.6.68: add: add macro_china_retail_price_index interface
+0.6.69: fix: fix box_office_spot interface
+0.6.70: fix: fix bond_investing_global interface
+0.6.71: fix: fix nh_return_index interface
+0.6.72: fix: fix get_receipt interface
+0.6.73: add: add news_cctv interface
+0.6.74: fix: fix macro and acm interface
+0.6.75: add: add movie_boxoffice interface
+0.6.76: fix: fix remove execjs dependence
+0.6.77: add: add macro_china_real_estate interface
+0.6.78: fix: fix movie_boxoffice interface
+0.6.79: fix: split movie_boxoffice to single interface
+0.6.80: fix: movie_boxoffice interface
+0.6.81: fix: fix stock_report_fund_hold interface
+0.6.82: fix: fix stock_em_comment interface
+0.6.83: add: add crypto_hist and crypto_name_map interface
+0.6.84: fix: fix crypto_hist interface
+0.6.85: fix: fix stock_a_pb and stock_a_pe interface
+0.6.86: fix: fix stock_zh_a_minute interface
+0.6.87: fix: remove email interface
+0.6.88: fix: fix get_dce_rank_table interface
+0.6.89: fix: fix get_dce_rank_table interface
+0.6.90: add: add fund_em_rank interface
+0.6.91: fix: fix get_futures_daily interface
+0.6.92: add: add repo_rate_hist interface
+0.6.93: fix: fix stock_report_fund_hold interface
+0.6.94: fix: fix docs interface
+0.6.95: fix: fix macro_china_market_margin_sh interface
+0.6.96: fix: fix stock_zh_a_daily interface
+0.6.97: add: add stock_em_hsgt_board_rank interface
+0.6.98: fix: fix fortune_rank interface
+0.6.99: add: add forbes_rank interface
 """
 
-__version__ = "0.6.25"
+__version__ = "0.6.99"
 __author__ = "Albert King"
+
+import sys
+
+if sys.version_info < (3, 7):
+    print(f"AkShare {__version__} requires Python 3.7+")
+    sys.exit(1)
+
+del sys
+
+"""
+福布斯中国榜单
+"""
+from akshare.fortune.forbes_500 import forbes_rank
+
+"""
+回购定盘利率
+"""
+from akshare.rate.repo_rate import repo_rate_hist
+
+"""
+公募基金排行
+"""
+from akshare.fund.fund_em_rank import (
+    fund_em_exchange_rank,
+    fund_em_money_rank,
+    fund_em_open_fund_rank,
+)
+
+"""
+英为财情-加密货币
+"""
+from akshare.crypto.crypto_hist_investing import crypto_hist, crypto_name_map
+
+"""
+电影票房
+"""
+from akshare.movie.movie_yien import (
+    movie_boxoffice_cinema_daily,
+    movie_boxoffice_cinema_weekly,
+    movie_boxoffice_weekly,
+    movie_boxoffice_daily,
+    movie_boxoffice_monthly,
+    movie_boxoffice_realtime,
+    movie_boxoffice_yearly,
+    movie_boxoffice_yearly_first_week,
+)
+
+"""
+新闻联播文字稿
+"""
+from akshare.news.cctv_news import news_cctv
+
+"""
+债券收盘收益率曲线历史数据
+"""
+from akshare.bond.bond_china_money import (
+    bond_china_close_return,
+    bond_china_close_return_map,
+)
+
+"""
+COMEX黄金-白银库存
+"""
+from akshare.futures.futures_comex import futures_comex_inventory
+
+"""
+国债期货可交割券相关指标
+"""
+from akshare.bond.bond_futures import bond_futures_deliverable_coupons
+
+"""
+A 股-次新股
+"""
+from akshare.stock.stock_zh_a_new import stock_zh_a_new
 
 """
 东方财富-注册制审核
 """
-from akshare.stock_fundamental.stock_register import stock_register_kcb
+from akshare.stock_fundamental.stock_register import (
+    stock_register_kcb,
+    stock_register_cyb,
+)
 
 """
 新浪财经-龙虎榜
@@ -1115,7 +1261,10 @@ A 股PE和PB
 """
 from akshare.stock_feature.stock_a_pb import stock_a_pb
 from akshare.stock_feature.stock_a_pe import stock_a_pe
-from akshare.stock_feature.stock_a_indicator import stock_a_lg_indicator, stock_hk_eniu_indicator
+from akshare.stock_feature.stock_a_indicator import (
+    stock_a_lg_indicator,
+    stock_hk_eniu_indicator,
+)
 from akshare.stock_feature.stock_a_high_low import stock_a_high_low_statistics
 from akshare.stock_feature.stock_a_below_net_asset_statistics import (
     stock_a_below_net_asset_statistics,
@@ -1233,7 +1382,7 @@ from akshare.stock_feature.stock_em_yjyg import stock_em_yjyg, stock_em_yysj
 """
 stock
 """
-from akshare.stock_feature.stock_em_dxsyl import stock_em_dxsyl
+from akshare.stock_feature.stock_em_dxsyl import stock_em_dxsyl, stock_em_xgsglb
 
 """
 article
@@ -1302,6 +1451,7 @@ from akshare.stock_feature.stock_em_hsgt import (
     stock_em_hsgt_hist,
     stock_em_hsgt_institution_statistics,
     stock_em_hsgt_stock_statistics,
+    stock_em_hsgt_board_rank,
 )
 
 """
@@ -1623,6 +1773,7 @@ from akshare.index.index_cons import (
     index_stock_cons,
     index_stock_hist,
     index_stock_cons_sina,
+    index_stock_cons_csindex,
 )
 
 """
@@ -1700,14 +1851,15 @@ from akshare.index.index_spot import spot_goods
 from akshare.cost.cost_living import cost_living
 
 """
-能约-碳排放权
+能源-碳排放权
 """
-from akshare.energy.energy_carbon import energy_carbon
-
-"""
-猫眼电影实时票房
-"""
-from akshare.movie.movie_maoyan import box_office_spot
+from akshare.energy.energy_carbon import (
+    energy_carbon_bj,
+    energy_carbon_eu,
+    energy_carbon_gz,
+    energy_carbon_hb,
+    energy_carbon_sz,
+)
 
 """
 中国证券投资基金业协会-信息公示
@@ -1725,11 +1877,7 @@ from akshare.fund.fund_amac import (
     amac_securities_info,
     amac_fund_abs,
     amac_manager_classify_info,
-    amac_manager_xxgs_cxdj,
-    amac_manager_xxgs_hmd,
-    amac_manager_xxgs_jlcf,
     amac_person_org_list,
-    amac_person_org_list_ext,
 )
 
 """
@@ -1893,9 +2041,9 @@ from akshare.stock.zh_stock_ah_tx import (
 )
 
 """
-数字货币
+加密货币
 """
-from akshare.economic.macro_other import get_js_dc_current
+from akshare.economic.macro_other import crypto_js_spot
 
 """
 金融期权
@@ -1908,7 +2056,12 @@ from akshare.option.option_finance import (
 """
 新浪-美股实时行情数据和历史行情数据(前复权)
 """
-from akshare.stock.us_stock_sina import stock_us_daily, stock_us_spot, get_us_stock_name, stock_us_fundamental
+from akshare.stock.us_stock_sina import (
+    stock_us_daily,
+    stock_us_spot,
+    get_us_stock_name,
+    stock_us_fundamental,
+)
 
 """
 新浪-港股实时行情数据和历史数据(前复权和后复权因子)
@@ -1965,7 +2118,6 @@ from akshare.economic.macro_constitute import (
     macro_cons_gold_change,
     macro_cons_gold_volume,
     macro_cons_opec_month,
-    macro_cons_opec_near_change,
     macro_cons_silver_amount,
     macro_cons_silver_change,
     macro_cons_silver_volume,
@@ -2052,7 +2204,6 @@ from akshare.economic.macro_china import (
     macro_china_shibor_all,
     macro_china_industrial_production_yoy,
     macro_china_lpr,
-    macro_china_money_supply,
     macro_china_new_house_price,
     macro_china_enterprise_boom_index,
     macro_china_national_tax_receipts,
@@ -2070,6 +2221,22 @@ from akshare.economic.macro_china import (
     macro_china_bond_public,
     macro_china_gksccz,
     macro_china_hb,
+    macro_china_xfzxx,
+    macro_china_reserve_requirement_ratio,
+    macro_china_consumer_goods_retail,
+    macro_china_society_electricity,
+    macro_china_society_traffic_volume,
+    macro_china_postal_telecommunicational,
+    macro_china_international_tourism_fx,
+    macro_china_passenger_load_factor,
+    macro_china_freight_index,
+    macro_china_central_bank_balance,
+    macro_china_insurance,
+    macro_china_supply_of_money,
+    macro_china_swap_rate,
+    macro_china_foreign_exchange_gold,
+    macro_china_retail_price_index,
+    macro_china_real_estate,
 )
 
 """
@@ -2198,14 +2365,3 @@ from akshare.futures.futures_daily_bar import (
     get_dce_daily,
     get_futures_daily,
 )
-
-"""
-配置文件
-"""
-from akshare.futures import cons
-from akshare.fund import cons
-
-"""
-发邮件模块
-"""
-from akshare.tool.send_email import send_email

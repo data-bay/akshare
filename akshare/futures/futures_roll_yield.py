@@ -66,7 +66,6 @@ def get_roll_yield_bar(
     ry      展期收益率
     index   日期或品种
     """
-
     date = cons.convert_date(date) if date is not None else datetime.date.today()
     start_day = (
         cons.convert_date(start_day) if start_day is not None else datetime.date.today()
@@ -129,7 +128,7 @@ def get_roll_yield_bar(
         return df_l
 
 
-def get_roll_yield(date=None, var="LR", symbol1=None, symbol2=None, df=None):
+def get_roll_yield(date=None, var="BB", symbol1=None, symbol2=None, df=None):
     """
     指定交易日指定品种（主力和次主力）或任意两个合约的展期收益率
     Parameters
@@ -146,7 +145,7 @@ def get_roll_yield(date=None, var="LR", symbol1=None, symbol2=None, df=None):
     near_by
     deferred
     """
-    # date = "20200304"
+    # date = "20100104"
     date = cons.convert_date(date) if date is not None else datetime.date.today()
     if date.strftime("%Y%m%d") not in calendar:
         warnings.warn("%s非交易日" % date.strftime("%Y%m%d"))
@@ -197,12 +196,10 @@ if __name__ == "__main__":
 
     get_roll_yield_bar_range_df = get_roll_yield_bar(
         type_method="var",
-        date="20200714",
+        date="20191008",
         plot=True,
     )
     print(get_roll_yield_bar_range_df)
 
-    get_roll_yield_bar_symbol = get_roll_yield_bar(
-        type_method="symbol", var="PG", start_day="20200109", end_day="20200721", plot=True
-    )
+    get_roll_yield_bar_symbol = get_roll_yield_bar(type_method="date", var="BB", start_day="20140104", end_day="20140201", plot=True)
     print(get_roll_yield_bar_symbol)

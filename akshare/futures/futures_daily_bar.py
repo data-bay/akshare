@@ -21,9 +21,10 @@ from akshare.futures.requests_fun import requests_link
 calendar = cons.get_calendar()
 
 
-def get_cffex_daily(date="20200723"):
+def get_cffex_daily(date="20100401"):
     """
     中国金融期货交易所日交易数据
+    http://www.cffex.com.cn/rtj/
     :param date: 日期 format：YYYY-MM-DD 或 YYYYMMDD 或 datetime.date对象; 为空时为当天
     :return: pandas.DataFrame
     中国金融期货交易所日:
@@ -47,11 +48,13 @@ def get_cffex_daily(date="20200723"):
         return None
     url = f"http://www.cffex.com.cn/sj/historysj/{date[:-2]}/zip/{date[:-2]}.zip"
     r = requests.get(url)
-
-    with zipfile.ZipFile(BytesIO(r.content)) as file:
-        with file.open(f"{date}_1.csv") as my_file:
-            data = my_file.read().decode("gb2312")
-            data_df = pd.read_csv(StringIO(data))
+    try:
+        with zipfile.ZipFile(BytesIO(r.content)) as file:
+            with file.open(f"{date}_1.csv") as my_file:
+                data = my_file.read().decode("gb2312")
+                data_df = pd.read_csv(StringIO(data))
+    except:
+        return None
     data_df = data_df[data_df["合约代码"] != "小计"]
     data_df = data_df[data_df["合约代码"] != "合计"]
     data_df = data_df[~data_df["合约代码"].str.contains("IO")]
@@ -59,8 +62,12 @@ def get_cffex_daily(date="20200723"):
     data_df["合约代码"] = data_df["合约代码"].str.strip()
     symbol_list = data_df["合约代码"].to_list()
     variety_list = [re.compile(r"[a-zA-Z_]+").findall(item)[0] for item in symbol_list]
-    data_df.columns = ["symbol", "open", "high", "low", "volume", "turnover",
-                       "open_interest", "_", "close", "settle", "pre_settle", "_", "_", "_"]
+    if data_df.shape[1] == 15:
+        data_df.columns = ["symbol", "open", "high", "low", "volume", "turnover",
+                           "open_interest", "_", "close", "settle", "pre_settle", "_", "_", "_", "_"]
+    else:
+        data_df.columns = ["symbol", "open", "high", "low", "volume", "turnover",
+                           "open_interest", "_", "close", "settle", "pre_settle", "_", "_", "_"]
     data_df["date"] = date
     data_df["variety"] = variety_list
     data_df = data_df[
@@ -69,7 +76,7 @@ def get_cffex_daily(date="20200723"):
     return data_df
 
 
-def get_ine_daily(date="20200416"):
+def get_ine_daily(date="20131016"):
     """
     上海国际能源交易中心-日频率-量价数据
     上海国际能源交易中心: 原油期货(上市时间: 20180326); 20号胶期货(上市时间: 20190812)
@@ -87,7 +94,11 @@ def get_ine_daily(date="20200416"):
     url = f"http://www.ine.cn/data/dailydata/kx/kx{day.strftime('%Y%m%d')}.dat"
     r = requests.get(url)
     result_df = pd.DataFrame()
-    temp_df = pd.DataFrame(r.json()["o_curinstrument"]).iloc[:-1, :]
+    try:
+        data_json = r.json()
+    except:
+        return None
+    temp_df = pd.DataFrame(data_json["o_curinstrument"]).iloc[:-1, :]
     temp_df = temp_df[temp_df["DELIVERYMONTH"] != "小计"]
     result_df["symbol"] = temp_df["PRODUCTID"].str.upper().str.split("_", expand=True)[0] + temp_df["DELIVERYMONTH"]
     result_df["date"] = day.strftime("%Y%m%d")
@@ -107,7 +118,7 @@ def get_ine_daily(date="20200416"):
 def get_czce_daily(date="20200901"):
     """
     郑州商品交易所-日频率-量价数据
-    :param date: 日期 format：YYYY-MM-DD 或 YYYYMMDD 或 datetime.date对象，默认为当前交易日
+    :param date: 日期 format：YYYY-MM-DD 或 YYYYMMDD 或 datetime.date对象，默认为当前交易日; 日期需要大于200100824
     :type date: str or datetime.date
     :return: 郑州商品交易所-日频率-量价数据
     :rtype: pandas.DataFrame or None
@@ -224,21 +235,21 @@ def get_czce_daily(date="20200901"):
         return pd.DataFrame(dict_data)[output_columns]
 
 
-def get_shfe_v_wap(date="20200416"):
+def get_shfe_v_wap(date="20131017"):
     """
-        获取上期所日成交均价数据
+    获取上期所日成交均价数据
     Parameters
     ------
-        date: 日期 format：YYYY-MM-DD 或 YYYYMMDD 或 datetime.date对象 为空时为当天
+    date: 日期 format：YYYY-MM-DD 或 YYYYMMDD 或 datetime.date对象 为空时为当天
     Return
     -------
-        DataFrame
-            郑商所日交易数据(DataFrame):
-                symbol        合约代码
-                date          日期
-                time_range    v_wap时段，分09:00-10:15和09:00-15:00两类
-                v_wap          加权平均成交均价
-        或 None(给定日期没有数据)
+    DataFrame
+        郑商所日交易数据(DataFrame):
+            symbol        合约代码
+            date          日期
+            time_range    v_wap时段，分09:00-10:15和09:00-15:00两类
+            v_wap          加权平均成交均价
+    或 None(给定日期没有数据)
     """
     day = cons.convert_date(date) if date is not None else datetime.date.today()
     if day.strftime("%Y%m%d") not in calendar:
@@ -252,9 +263,7 @@ def get_shfe_v_wap(date="20200416"):
                 encoding="utf-8",
             ).text
         )
-    except requests.HTTPError as reason:
-        if reason.response not in [404, 403]:
-            print(cons.SHFE_DAILY_URL % (day.strftime("%Y%m%d")), reason)
+    except:
         return None
 
     if len(json_data["o_currefprice"]) == 0:
@@ -270,7 +279,7 @@ def get_shfe_v_wap(date="20200416"):
         return None
 
 
-def get_shfe_daily(date="20200416"):
+def get_shfe_daily(date="20131016"):
     """
     上海期货交易所-日频率-量价数据
     :param date: 日期 format：YYYY-MM-DD 或 YYYYMMDD 或 datetime.date对象, 默认为当前交易日
@@ -337,7 +346,7 @@ def get_shfe_daily(date="20200416"):
     return df[cons.OUTPUT_COLUMNS]
 
 
-def get_dce_daily(date="20200701"):
+def get_dce_daily(date="20030115"):
     """
     大连商品交易所日交易数据
     http://www.dce.com.cn/dalianshangpin/xqsj/tjsj26/rtj/rxq/index.html
@@ -403,7 +412,7 @@ def get_dce_daily(date="20200701"):
     return data_df
 
 
-def get_futures_daily(start_date="20200701", end_date="20200716", market="DCE", index_bar=False):
+def get_futures_daily(start_date="20201026", end_date="20201027", market="SHFE", index_bar=False):
     """
     交易所日交易数据
     Parameters
@@ -411,7 +420,7 @@ def get_futures_daily(start_date="20200701", end_date="20200716", market="DCE", 
     start_date: 开始日期 format：YYYY-MM-DD 或 YYYYMMDD 或 datetime.date对象 为空时为当天
     end_date: 结束数据 format：YYYY-MM-DD 或 YYYYMMDD 或 datetime.date对象 为空时为当天
     market: 'CFFEX' 中金所, 'CZCE' 郑商所,  'SHFE' 上期所, 'DCE' 大商所 之一, 'INE' 上海国际能源交易中心。默认为中金所
-    index_bar: bool  是否合成指数K线
+    index_bar: bool  是否合成指数K线, 默认为 False 否则影响 roll_yield 的计算
     """
     if market.upper() == "CFFEX":
         f = get_cffex_daily
@@ -468,6 +477,9 @@ def get_futures_index(df):
             index_df[["volume", "open_interest", "turnover"]] = df_cut[
                 ["volume", "open_interest", "turnover"]
             ].sum()
+            if "efp" in df_cut.iloc[-1, 0]:
+                df_cut = df_cut.iloc[:-1, :]
+            df_cut.replace("", 0, inplace=True)  # 20201026 部分数据开盘价空缺
             index_df[["open", "high", "low", "close", "settle", "pre_settle"]] = np.dot(
                 np.array(
                     df_cut[["open", "high", "low", "close", "settle", "pre_settle"]]
@@ -481,14 +493,17 @@ def get_futures_index(df):
 
 
 if __name__ == "__main__":
-    get_futures_daily_df = get_futures_daily(start_date="20200601", end_date="20200902", market="CZCE", index_bar=True)
+    get_futures_daily_df = get_futures_daily(start_date='20101112 ', end_date='20101113', market="SHFE", index_bar=True)
     print(get_futures_daily_df)
 
-    get_dce_daily_df = get_dce_daily(date="20200701")
+    get_dce_daily_df = get_dce_daily(date="20030109")
     print(get_dce_daily_df)
 
-    get_cffex_daily_df = get_cffex_daily(date="20200803")
+    get_cffex_daily_df = get_cffex_daily(date="20101101")
     print(get_cffex_daily_df)
 
-    get_ine_daily_df = get_ine_daily(date="20200416")
+    get_ine_daily_df = get_ine_daily(date="20180416")
     print(get_ine_daily_df)
+
+    get_czce_daily_df = get_czce_daily(date="20200901")
+    print(get_czce_daily_df)

@@ -84,8 +84,8 @@
  "futures_zh_minute_sina"  # 获取新浪-内盘分时数据
  # 交易所金融期权数据
  "get_finance_option"  # 提供上海证券交易所期权数据
- # 数字货币行情
- "get_js_dc_current"  # 提供主流数字货币行情数据接口
+ # 加密货币行情
+ "crypto_js_spot"  # 提供主流加密货币行情数据接口
  # 股票-企业社会责任
  "stock_zh_a_scr_report"  # 企业社会责任数据
  # 美股-中国概念股行情和历史数据
@@ -95,7 +95,7 @@
  "stock_hk_spot"  # 获取港股的历史行情数据(包括前后复权因子)
  "stock_hk_daily"  # 获取港股的实时行情数据(也可以用于获得所有港股代码)
  # 新浪财经-美股
- "stock_us_name"  # 获得美股的所有股票代码
+ "get_us_stock_name"  # 获得美股的所有股票代码
  "stock_us_spot"  # 获取美股行情报价
  "stock_us_daily"  # 获取美股的历史数据(包括前复权因子)
  "stock_us_fundamental"  # 获取美股的基本面数据
@@ -166,7 +166,6 @@
  # 中国证券投资基金业协会-信息公示
  "amac_member_info" # 中国证券投资基金业协会-信息公示-会员信息-会员机构综合查询
  "amac_person_org_list" # 中国证券投资基金业协会-信息公示-从业人员信息-基金从业人员资格注册信息
- "amac_person_org_list_ext" # 中国证券投资基金业协会-信息公示-从业人员信息-基金从业人员资格注册外部公示信息
  "amac_manager_info" # 中国证券投资基金业协会-信息公示-私募基金管理人公示-私募基金管理人综合查询
  "amac_manager_classify_info" # 中国证券投资基金业协会-信息公示-私募基金管理人公示-私募基金管理人分类公示
  "amac_member_sub_info" # 中国证券投资基金业协会-信息公示-私募基金管理人公示-证券公司私募基金子公司管理人信息公示
@@ -177,9 +176,6 @@
  "amac_fund_account_info" # 中国证券投资基金业协会-信息公示-基金产品公示-基金公司及子公司集合资管产品公示
  "amac_fund_abs" # 中国证券投资基金业协会-信息公示-基金产品公示-资产支持专项计划
  "amac_futures_info" # 中国证券投资基金业协会-信息公示-基金产品公示-期货公司集合资管产品公示
- "amac_manager_xxgs_hmd" # 中国证券投资基金业协会-信息公示-诚信信息-违反自律规则黑名单
- "amac_manager_xxgs_jlcf" # 中国证券投资基金业协会-信息公示-诚信信息-纪律处分
- "amac_manager_xxgs_cxdj" # 中国证券投资基金业协会-信息公示-诚信信息-撤销管理人登记的名单
  "amac_manager_cancelled_info" # 中国证券投资基金业协会-信息公示-诚信信息-已注销私募基金管理人名单
  # 全国银行间同业拆借中心-市场数据-市场行情-外汇市场行情
  "fx_spot_quote"  # 市场行情-外汇市场行情-人民币外汇即期报价
@@ -187,8 +183,6 @@
  "fx_pair_quote"  # 市场行情-债券市场行情-外币对即期报价
  # 能源-碳排放权
  "energy_carbon"  # 北京市碳排放权电子交易平台-北京市碳排放权公开交易行情
- # 电影-实时票房
- "box_office_spot"  # 获取上映影片实时票房数据
  # 生活成本
  "cost_living"  # 获取世界各大城市生活成本数据
  # 商品现货价格指数
@@ -309,7 +303,6 @@
  "macro_china_ctci_detail"  # 发改委-中国电煤价格指数-各价区电煤价格指数
  "macro_china_ctci_detail_hist"  # 发改委-中国电煤价格指数-历史电煤价格指数
  "macro_china_lpr"  # 中国-利率-贷款报价利率
- "macro_china_money_supply"  # 中国-货币-货币供应量
  "macro_china_new_house_price"  # 中国-新房价指数
  "macro_china_enterprise_boom_index"  # 中国-企业景气及企业家信心指数
  "macro_china_national_tax_receipts"  # 中国-全国税收收入
@@ -372,7 +365,6 @@
  "macro_cons_silver_volume"  # 全球最大白银ETF--iShares Silver Trust持仓报告
  "macro_cons_silver_change"  # 全球最大白银ETF--iShares Silver Trust持仓报告
  "macro_cons_silver_amount"  # 全球最大白银ETF--iShares Silver Trust持仓报告
- "macro_cons_opec_near_change"  # 欧佩克报告-变动
  "macro_cons_opec_month"  # 欧佩克报告-月度
  # 伦敦金属交易所(LME)
  "macro_euro_lme_holding"  # 伦敦金属交易所(LME)-持仓报告
@@ -482,6 +474,7 @@
  "stock_em_hsgt_stock_statistics"  # 沪深港通持股-每日个股统计
  "stock_em_hsgt_institution_statistics"  # 沪深港通持股-每日机构统计
  "stock_em_hsgt_hist"  # 沪深港通历史数据
+ "stock_em_hsgt_board_rank"  # 板块排行
  # 两市停复牌
  "stock_em_tfp"  # 两市停复牌数据
  # 恐慌指数
@@ -497,6 +490,7 @@
  "watch_argus"  # 阿尔戈斯全网监控
  # 打新收益率
  "stock_em_dxsyl"  # 打新收益率
+ "stock_em_xgsglb"  # 新股申购与中签查询
  # 年报季报
  "stock_em_yjyg"  # 上市公司业绩预告
  "stock_em_yysj"  # 上市公司预约披露时间
@@ -575,6 +569,71 @@
  "stock_sina_lhb_jgmx"  # 龙虎榜-机构席位成交明细
  # 注册制审核
  "stock_register_kcb"  # 注册制审核-科创板
+ "stock_register_cyb"  # 注册制审核-创业板
+ # 次新股
+ "stock_zh_a_new"  # 股票数据-次新股
+ # 国债期货可交割券相关指标
+ "bond_futures_deliverable_coupons"  # 国债期货可交割券相关指标
+ # COMEX库存数据
+ "futures_comex_inventory"  # COMEX库存数据
+ # 消费者信心指数
+ "macro_china_xfzxx"  # 消费者信心指数
+ # 存款准备金率
+ "macro_china_reserve_requirement_ratio"  # 存款准备金率
+ # 社会消费品零售总额
+ "macro_china_consumer_goods_retail"  # 社会消费品零售总额
+ # 海关进出口增减情况
+ "macro_china_hgjck"  # 海关进出口增减情况
+ # 全社会用电分类情况表
+ "macro_china_society_electricity"  # 全社会用电分类情况表
+ # 全社会客货运输量
+ "macro_china_society_traffic_volume"  # 全社会客货运输量
+ # 邮电业务基本情况
+ "macro_china_postal_telecommunicational"  # 邮电业务基本情况
+ # 国际旅游外汇收入构成
+ "macro_china_international_tourism_fx"  # 国际旅游外汇收入构成
+ # 民航客座率及载运率
+ "macro_china_passenger_load_factor"  # 民航客座率及载运率
+ # 航贸运价指数
+ "macro_china_freight_index"  # 航贸运价指数
+ # 央行货币当局资产负债
+ "macro_china_central_bank_balance"  # 央行货币当局资产负债
+ # FR007利率互换曲线历史数据
+ "macro_china_swap_rate"  # FR007利率互换曲线历史数据
+ # 收盘收益率曲线历史数据
+ "bond_china_close_return"  # 收盘收益率曲线历史数据
+ # 保险业经营情况
+ "macro_china_insurance"  # 保险业经营情况
+ # 货币供应量
+ "macro_china_supply_of_money"  # 货币供应量
+ # 央行黄金和外汇储备
+ "macro_china_foreign_exchange_gold"  # 央行黄金和外汇储备
+ # 商品零售价格指数
+ "macro_china_retail_price_index"  # 商品零售价格指数
+ # 新闻联播文字稿
+ "news_cctv"  # 新闻联播文字稿
+ # 电影票房
+ "movie_boxoffice_realtime"  # 电影实时票房
+ "movie_boxoffice_daily"  # 电影单日票房
+ "movie_boxoffice_weekly"  # 电影单周票房
+ "movie_boxoffice_monthly"  # 电影单月票房
+ "movie_boxoffice_yearly"  # 电影年度票房
+ "movie_boxoffice_yearly_first_week"  # 电影年度首周票房
+ "movie_boxoffice_cinema_daily"  # 电影院单日票房
+ "movie_boxoffice_cinema_weekly"  # 电影院单周票房
+ # 国房景气指数
+ "macro_china_real_estate"  # 国房景气指数
+ # 加密货币历史数据
+ "crypto_hist"  # 加密货币历史数据
+ "crypto_name_map"  # 加密货币货币名称
+ # 基金排行
+ "fund_em_open_fund_rank"  # 开放式基金排行
+ "fund_em_exchange_rank"  # 场内交易基金排行
+ "fund_em_money_rank"  # 货币型基金排行
+ # 回购定盘利率
+ "repo_rate_hist"  # 回购定盘利率
+ # 福布斯中国榜单
+ "forbes_rank"  # 福布斯中国榜单
 ```
 
 ## 案例演示

@@ -912,7 +912,7 @@ get_futures_daily_df = ak.get_futures_daily(start_date="20190107", end_date="201
 print(get_futures_daily_df)
 ```
 
-market 可以添为四个交易所的简称, 即 "dce" 代表大商所; "ine" 代表能源所; "shfe" 代表上期所; "czce" 代表郑商所; "cffex" 代表中金所. 
+market 可以添为四个交易所的简称, 即 "DCE" 代表大商所; "INE" 代表能源所; "SHFE" 代表上期所; "CZCE" 代表郑商所, 时间需要大于20100824; "CFFEX" 代表中金所. 
 index_bar 为 True 时, 在生成的 pandas.DataFrame 中通过持仓量加权合成指数合约, 如 RB99.
 
 ### 期货行情数据
@@ -1168,13 +1168,13 @@ while True:
 
 目标地址: 各交易所网站
 
-描述: 提供各交易所各品种的网站的历史行情数据
+描述: 提供各交易所各品种的网站的历史行情数据, 其中 20040625, 20070604, 20081226, 20090119 原网页数据缺失
 
 限量: 单次返回指定时间段指定交易所的所有期货品种历史数据
 
 输入参数
 
-| 名称   | 类型 | 必选 | 描述                                                                              |
+| 名称   | 类型  | 必选  | 描述  |
 | -------- | ---- | ---- | --- |
 | start_date | str | Y | start_date="20200701" |
 | end_date | str | Y | end_date="20200716" |
@@ -1614,8 +1614,8 @@ print(futures_sgx_daily_df)
 
 ```python
 import akshare as ak
-futures_df = ak.futures_main_sina(symbol="IF0", trade_date="20181220")
-print(futures_df)
+futures_main_sina_df = ak.futures_main_sina(symbol="IF0", trade_date="20181220")
+print(futures_main_sina_df)
 ```
 
 数据示例-连续合约数据接口
@@ -1639,8 +1639,8 @@ print(futures_df)
 
 ```python
 import akshare as ak
-display_main_df = ak.futures_display_main_sina()
-print(display_main_df)
+futures_display_main_sina_df = ak.futures_display_main_sina()
+print(futures_display_main_sina_df)
 ```
 
 数据示例-新浪连续合约品种一览表接口
@@ -1826,8 +1826,8 @@ display_main_df[display_main_df["name"].str.contains("连续")]
 
 ```python
 import akshare as ak
-nh_df = ak.nh_return_index(code="Y")
-print(nh_df)
+nh_return_index_df = ak.nh_return_index()
+print(nh_return_index_df)
 ```
 
 数据示例
@@ -6501,4 +6501,53 @@ print(futures_zh_minute_sina_df)
 1020  2020-07-21 14:17:00  101.105  101.105  101.090  101.095     75  43931
 1021  2020-07-21 14:18:00  101.095  101.095  101.080  101.080     30  43938
 1022  2020-07-21 14:19:00  101.080  101.095  101.080  101.085     43  43941
+```
+
+### COMEX库存数据
+
+接口: futures_comex_inventory
+
+目标地址: http://data.eastmoney.com/pmetal/comex/by.html
+
+描述: 获取东方财富网-数据中心-COMEX库存数据
+
+限量: 单次返回指定 symbol 的所有历史数据
+
+输入参数
+
+| 名称   | 类型 | 必选 | 描述                                                                              |
+| -------- | ---- | ---- | --- |
+| symbol | str | Y | symbol="黄金"; choice of {"黄金", "白银"} |
+
+输出参数
+
+| 名称          | 类型 | 默认显示 | 描述           |
+| --------------- | ----- | -------- | ---------------- |
+| date      | str   | Y        | 交易日  |
+| value1      | float   | Y        | 注意单位: 盎司  |
+| value2      | float   | Y        |  注意单位: 吨 |
+						
+接口示例
+
+```python
+import akshare as ak
+futures_comex_inventory_df = ak.futures_comex_inventory(symbol="黄金")
+print(futures_comex_inventory_df)
+```
+
+数据示例
+
+```
+           date      value1   value2
+0    2020-09-24  36606349.0  1138.59
+1    2020-09-23  36606349.0  1138.59
+2    2020-09-22  36564935.0   1137.3
+3    2020-09-21  36663289.0  1140.36
+4    2020-09-18  36514878.0  1135.74
+         ...         ...      ...
+1231 2015-10-29   6700779.0  208.418
+1232 2015-10-28   6703769.0  208.511
+1233 2015-10-27   6703769.0  208.511
+1234 2015-10-26   6704070.0   208.52
+1235 2015-10-23   6704070.0   208.52
 ```
