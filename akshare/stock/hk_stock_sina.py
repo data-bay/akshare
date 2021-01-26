@@ -50,7 +50,7 @@ def stock_hk_spot() -> pd.DataFrame:
     return data_df
 
 
-def stock_hk_daily(symbol: str = "02912", adjust: str = "qfq") -> pd.DataFrame:
+def stock_hk_daily(symbol: str = "00981", adjust: str = "qfq") -> pd.DataFrame:
     """
     新浪财经-港股-个股的历史行情数据
     https://stock.finance.sina.com.cn/hkstock/quotes/02912.html
@@ -80,6 +80,8 @@ def stock_hk_daily(symbol: str = "02912", adjust: str = "qfq") -> pd.DataFrame:
         try:
             hfq_factor_df = pd.DataFrame(
                 eval(res.text.split("=")[1].split("\n")[0])['data'])
+            if len(hfq_factor_df) == 1:
+                return data_df
         except SyntaxError as e:
             return data_df
         hfq_factor_df.columns = ["date", "hfq_factor", "cash"]
@@ -90,21 +92,23 @@ def stock_hk_daily(symbol: str = "02912", adjust: str = "qfq") -> pd.DataFrame:
         temp_date_range = pd.date_range("1900-01-01", hfq_factor_df.index[0].isoformat())
         temp_df = pd.DataFrame(range(len(temp_date_range)), temp_date_range)
         new_range = pd.merge(
-            temp_df, hfq_factor_df, left_index=True, right_index=True, how="left"
+            temp_df, hfq_factor_df, left_index=True, right_index=True, how="outer"
         )
         new_range = new_range.fillna(method="ffill")
         new_range = new_range.iloc[:, [1, 2]]
 
         temp_df = pd.merge(
-            data_df, new_range, left_index=True, right_index=True, how="left"
+            data_df, new_range, left_index=True, right_index=True, how="outer"
         )
         temp_df.fillna(method="ffill", inplace=True)
+        temp_df.drop_duplicates(subset=["open", "high", "low", "close", "volume"], inplace=True)
         temp_df = temp_df.astype(float)
         temp_df["open"] = temp_df["open"] * temp_df["hfq_factor"] + temp_df["cash"]
         temp_df["high"] = temp_df["high"] * temp_df["hfq_factor"] + temp_df["cash"]
         temp_df["close"] = temp_df["close"] * temp_df["hfq_factor"] + temp_df["cash"]
         temp_df["low"] = temp_df["low"] * temp_df["hfq_factor"] + temp_df["cash"]
         temp_df = temp_df.apply(lambda x: round(x, 2))
+        temp_df.dropna(how="any", inplace=True)
         return temp_df.iloc[:, :-2]
 
     if adjust == "qfq":
@@ -112,6 +116,9 @@ def stock_hk_daily(symbol: str = "02912", adjust: str = "qfq") -> pd.DataFrame:
         try:
             qfq_factor_df = pd.DataFrame(
                 eval(res.text.split("=")[1].split("\n")[0])['data'])
+            if len(qfq_factor_df) == 1:
+                return data_df
+
         except SyntaxError as e:
             return data_df
         qfq_factor_df.columns = ["date", "qfq_factor"]
@@ -121,21 +128,23 @@ def stock_hk_daily(symbol: str = "02912", adjust: str = "qfq") -> pd.DataFrame:
         temp_date_range = pd.date_range("1900-01-01", qfq_factor_df.index[0].isoformat())
         temp_df = pd.DataFrame(range(len(temp_date_range)), temp_date_range)
         new_range = pd.merge(
-            temp_df, qfq_factor_df, left_index=True, right_index=True, how="left"
+            temp_df, qfq_factor_df, left_index=True, right_index=True, how="outer"
         )
         new_range = new_range.fillna(method="ffill")
         new_range = new_range.iloc[:, [1]]
 
         temp_df = pd.merge(
-            data_df, new_range, left_index=True, right_index=True, how="left"
+            data_df, new_range, left_index=True, right_index=True, how="outer"
         )
         temp_df.fillna(method="ffill", inplace=True)
+        temp_df.drop_duplicates(subset=["open", "high", "low", "close", "volume"], inplace=True)
         temp_df = temp_df.astype(float)
         temp_df["open"] = temp_df["open"] * temp_df["qfq_factor"]
         temp_df["high"] = temp_df["high"] * temp_df["qfq_factor"]
         temp_df["close"] = temp_df["close"] * temp_df["qfq_factor"]
         temp_df["low"] = temp_df["low"] * temp_df["qfq_factor"]
         temp_df = temp_df.apply(lambda x: round(x, 2))
+        temp_df.dropna(how="any", inplace=True)
         return temp_df.iloc[:, :-1]
 
     if adjust == "hfq-factor":
@@ -158,11 +167,11 @@ def stock_hk_daily(symbol: str = "02912", adjust: str = "qfq") -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    stock_hk_daily_hfq_df = stock_hk_daily(symbol="00700", adjust="hfq")
+    stock_hk_daily_hfq_df = stock_hk_daily(symbol="00772", adjust="hfq")
     print(stock_hk_daily_hfq_df)
-    stock_hk_daily_df = stock_hk_daily(symbol="00700", adjust="")
+    stock_hk_daily_df = stock_hk_daily(symbol="00981", adjust="hfq")
     print(stock_hk_daily_df)
-    stock_hk_daily_hfq_factor_df = stock_hk_daily(symbol="00700", adjust="hfq-factor")
+    stock_hk_daily_hfq_factor_df = stock_hk_daily(symbol="00772", adjust="hfq-factor")
     print(stock_hk_daily_hfq_factor_df)
     current_data_df = stock_hk_spot()
     print(current_data_df)

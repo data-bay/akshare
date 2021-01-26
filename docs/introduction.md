@@ -3,15 +3,15 @@
 **风险提示：[AkShare](https://github.com/jindaxiang/akshare) 项目所采集的数据皆来自公开的数据源，不涉及任何个人隐私数据和非公开数据。
 同时本项目提供的数据接口及相关数据仅用于学术研究，任何个人、机构及团体使用本项目的数据接口及相关数据请注意商业风险。**
 
-1. 本文档更新于 **2020-11-06**;
+1. 本文档更新于 **2020-01-26**;
 
 2. 如有库、文档及数据的相关问题, 请在 [AkShare Issues](https://github.com/jindaxiang/akshare/issues) 中提 Issues;
 
-3. 您也可以加入QQ群: 942371170
+3. 您也可以加入QQ群: 1001545081
 
 <div align=center>
     <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=8de5f2b616ba185100c45de811736a7cbf2eb4bc2d6b1efcfd3e5cdf9d7760de">
-        <img border="0" src="https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/akshare/qq/akshare_qq_3.jpg" alt="AkShare-官方" title="AkShare-官方" align="center">
+        <img border="0" src="https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/akshare/readme/qrcode/qr_code_1001545081.png" alt="AkShare-官方" title="AkShare-官方" align="center">
     </a>
 </div>
 4. 欢迎关注 数据科学实战 微信公众号:
@@ -206,7 +206,7 @@
     
     6.75 新增[东方财富网](http://data.eastmoney.com/bbsj/202003/yjyg.html/)提供的年报季报数据;
     
-    6.76 新增[FutureSharks](https://github.com/FutureSharks/financial-data/)提供的年报季报数据;
+    6.76 新增[FutureSharks](https://github.com/FutureSharks/financial-data/)提供的高频日内数据;
 
 7. 提供完善的接口文档, 提高 [AkShare](https://github.com/jindaxiang/akshare) 的易用性.
 
@@ -214,34 +214,5 @@
 
 ## [AkShare](https://github.com/jindaxiang/akshare) 的初衷
 
-[AkShare](https://github.com/jindaxiang/akshare) 主要是用于财经研究, 解决在财经研究中数据获取困难的问题. 
-
-![私募基金曲线](https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/akshare/readme/index/stock_futures_index.png)
-
-上图是利用 [AkShare](https://github.com/jindaxiang/akshare) 的 **get_zdzk_fund_index** 接口获取的[智道智科](https://www.ziasset.com/company/)发布的股票策略指数和管理期货策略指数.
-可以看出股票策略的波动性大于管理期货策略, 而且从 2015 年至今, 管理期货策略能获得较稳定的收益.
-
-传统的 CTA 策略以趋势为主, 但是自从 2017 年以来, 无论是长线还是短线的趋势策略都受制于商品波动率的降低, 面临了多多少少的回撤, 
+[AkShare](https://github.com/jindaxiang/akshare) 主要是用于财经研究, 解决在财经研究中数据获取困难的问题。传统的 CTA 策略以趋势为主, 但是自从 2017 年以来, 无论是长线还是短线的趋势策略都受制于商品波动率的降低, 面临了多多少少的回撤, 
 同时市场也逐渐趋于机构化理性化, 因此在传统 CTA 策略的基础上加入基本面的因素显得迫在眉睫. 近几年各券商的研报陆续提出了许多依赖于趋势行情以外的有效信号, 它们的表现都与趋势策略有着很低的甚至负的相关性, 这样通过多种不同类型的信号对冲得到的策略, 就有机会在市场上取得非常棒的夏普率和稳定的收益. 
-
-**上图调用 [AkShare](https://github.com/jindaxiang/akshare) 进行绘制的代码如下**
-
-```python
-import akshare as ak
-import matplotlib.pyplot as plt
-
-plt.rcParams['font.sans-serif'] = 'SimHei'  # Linux 请注意字体设置问题
-plt.rcParams['axes.unicode_minus'] = False
-
-stock_df = ak.zdzk_fund_index(30, plot=False)  # 股票策略数据
-futures_df = ak.zdzk_fund_index(32, plot=False)  # 管理期货策略数据
-
-fig = plt.figure(111, figsize=(20, 10), dpi=300)
-adjust_stock_df = stock_df["20150102":] / stock_df["20150102"] * 1000
-adjust_stock_df.plot(linewidth=4)
-adjust_futures_df = futures_df["20150102":] / futures_df["20150102"] * 1000
-adjust_futures_df.plot(linewidth=4)
-plt.title("智道智科股票策略和管理期货策略指数")
-plt.legend()
-plt.show()
-```

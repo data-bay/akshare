@@ -1,7 +1,5 @@
 # [AkShare](https://github.com/jindaxiang/akshare) 快速入门
 
-## 环境配置
-
 ## 查看数据
 
 具体函数使用详情, 请查看 [AkShare 文档](https://akshare.readthedocs.io/) 每个接口的示例代码
@@ -28,7 +26,8 @@
  "get_shfe_daily",  # 获取上海期货交易所每日交易数据
  "get_shfe_rank_table",  # 获取上海期货交易所前20会员持仓数据明细
  "get_shfe_v_wap",  # 获取上海期货交易所日成交均价数据
- "futures_spot_price",  # 获取某一交易日大宗商品现货价格及相应基差数据
+ "futures_spot_price",  # 获取具体交易日大宗商品现货价格及相应基差数据
+ "futures_spot_price_previous",  # 获取具体交易日大宗商品现货价格及相应基差数据-该接口补充历史数据
  "futures_spot_price_daily"  # 获取一段交易日大宗商品现货价格及相应基差数据
  "futures_czce_warehouse_receipt"  # 郑州商品交易所-交易数据-仓单日报
  "futures_shfe_warehouse_receipt"  # 上海期货交易所-交易数据-仓单日报
@@ -45,11 +44,9 @@
  "get_qhkc_tool_gdp"  # 获取奇货可查-工具-各地区经济数据
  # 中国银行间市场交易所数据
  "get_bond_bank"  # 获取中国银行间市场交易商协会-债券数据
- # 智道智科-私募指数数据
- "get_zdzk_fund_index"  # 获取智道智科-私募指数数据
  # 提供英为财情数据接口
- "get_country_index"  # 提供英为财情-股票指数-全球股指与期货指数数据
- "get_country_bond"  # 提供英为财情-债券数据-全球政府债券行情与收益率数据
+ "index_investing_global"  # 提供英为财情-股票指数-全球股指与期货指数数据
+ "bond_investing_global"  # 提供英为财情-债券数据-全球政府债券行情与收益率数据
  # 交易所商品期权数据
  "get_dce_option_daily"  # 提供大连商品交易所商品期权数据
  "get_czce_option_daily"  # 提供郑州商品交易所商品期权数据
@@ -107,6 +104,7 @@
  "stock_zh_a_spot"  # 获取 A 股实时行情数据
  "stock_zh_a_daily"  # 获取 A 股历史行情数据(日频)
  "stock_zh_a_minute"  # 获取 A 股分时历史行情数据(分钟)
+ "stock_zh_a_cdr_daily"  # 获取 A 股 CDR 历史行情数据(日频)
  # 科创板实时行情数据和历史行情数据
  "stock_zh_kcb_spot"  # 获取科创板实时行情数据
  "stock_zh_kcb_daily"  # 获取科创板历史行情数据(日频)
@@ -308,6 +306,7 @@
  "macro_china_national_tax_receipts"  # 中国-全国税收收入
  "macro_china_new_financial_credit"  # 中国-新增信贷数据
  "macro_china_fx_gold"  # 中国-外汇和黄金储备
+ "macro_china_stock_market_cap"  # 中国-全国股票交易统计表
  "macro_china_cpi"  # 中国-居民消费价格指数
  "macro_china_gdp"  # 中国-国内生产总值
  "macro_china_ppi"  # 中国-工业品出厂价格指数
@@ -396,7 +395,8 @@
  "covid_19_area_all"  # 提供可查询的省份-城市-区一览表
  "covid_19_area_detail"  # 全国所有小区详细数据
  # 新型肺炎-相同行程查询
- "covid_19_trip"  # 相同行程交通工具所有信息
+ "covid_19_trip"  # 同程交通
+ "covid_19_trace"  # 病患轨迹
  # 债券-沪深债券
  "bond_zh_hs_daily"  # 债券-沪深债券-历史行情数据
  "bond_zh_hs_spot"  # 债券-沪深债券-实时行情数据
@@ -436,12 +436,16 @@
  "stock_js_weibo_report"  # 微博舆情报告
  # 自然语言处理
  "nlp_ownthink"  # 知识图谱
+ "nlp_answer"  # 智能问答
  # 货币
  "currency_latest"  # 最新货币报价
  "currency_history"  # 指定历史日期的所有货币报价
  "currency_time_series"  # 指定日期间的时间序列数据-需要权限
  "currency_currencies"  # 查询所支持的货币信息
  "currency_convert"  # 货币换算
+ "currency_hist"  # 指定历史日期的货币对的历史报价
+ "currency_pair_map"  # 指定货币的所有可获取货币对的数据
+ "currency_name_code"  # 当前所有可兑换货币对
  # 工具-GitHub
  "tool_github_star_list"  # GitHub Star 的用户
  "tool_github_email_address"  # GitHub 用户的邮箱
@@ -500,7 +504,7 @@
  "hf_sp_500"  # 获取标普500指数的分钟数据
  # 商品期货库存数据
  "futures_inventory_em"  # 库存数据-东方财富
- "get_inventory_data"  # 库存数据-99期货
+ "futures_inventory_99"  # 库存数据-99期货
  # 个股资金流
  "stock_individual_fund_flow"  # 个股资金流
  "stock_individual_fund_flow_rank"  # 个股资金流排名
@@ -559,6 +563,7 @@
  "stock_report_disclosure"  # 股票财务报告-预约披露时间
  # 基金持股
  "stock_report_fund_hold"  # 个股-基金持股
+ "stock_report_fund_hold_detail"  # 个股-基金持股-明细
  # 中证指数
  "stock_zh_index_hist_csindex"  # 中证指数
  # A股龙虎榜
@@ -630,10 +635,49 @@
  "fund_em_open_fund_rank"  # 开放式基金排行
  "fund_em_exchange_rank"  # 场内交易基金排行
  "fund_em_money_rank"  # 货币型基金排行
+ "fund_em_lcx_rank"  # 理财基金排行
+ "fund_em_hk_rank"  # 香港基金排行
  # 回购定盘利率
  "repo_rate_hist"  # 回购定盘利率
  # 福布斯中国榜单
  "forbes_rank"  # 福布斯中国榜单
+ # 新财富500富豪榜
+ "xincaifu_rank"  # 新财富500富豪榜
+ # 胡润排行榜
+ "hurun_rank"  # 胡润排行榜
+ # 期货合约详情
+ "futures_contract_detail"  # 期货合约详情
+ # 科创板报告
+ "zh_stock_kcb_report"  # 科创板报告
+ # 东方财富-期权
+ "option_current_em"  # 东方财富-期权
+ # 金十数据-新闻资讯
+ "js_news"  # 金十数据-新闻资讯
+ # 国证指数
+ "index_cni_all"  # 国证指数-所有指数
+ "index_cni_hist"  # 国证指数-指数行情
+ "index_cni_detail"  # 国证指数-样本详情
+ "index_cni_detail_hist"  # 国证指数-历史样本
+ "index_cni_detail_hist_adjust"  # 国证指数-历史调样
+ # 大宗交易
+ "stock_dzjy_sctj"  # 大宗交易-市场统计
+ "stock_dzjy_mrmx"  # 大宗交易-每日明细
+ "stock_dzjy_mrtj"  # 大宗交易-每日统计
+ "stock_dzjy_hygtj"  # 大宗交易-活跃 A 股统计
+ "stock_dzjy_yybph"  # 大宗交易-营业部排行
+ "stock_dzjy_hyyybtj"  # 大宗交易-活跃营业部统计
+ "stock_dzjy_yybph"  # 大宗交易-营业部排行
+ # 一致行动人
+ "stock_em_yzxdr"  # 股票数据-一致行动人
+ # 新闻-个股新闻
+ "stock_news_em"  # 新闻-个股新闻
+ # 债券概览
+ "bond_cash_summary_sse"  # 上登债券信息网-债券现券市场概览
+ "bond_deal_summary_sse"  # 上登债券信息网-债券成交概览
+ # 中国货币供应量
+ "macro_china_money_supply"  # 中国货币供应量
+ # 银行排名
+ "bank_rank_banker"  # 全球银行排名数据及各项指标
 ```
 
 ## 案例演示
@@ -674,30 +718,4 @@ print(get_roll_yield_bar_df)
 2018-07-16    0.218066  RB1810   RB1901
 2018-07-17    0.229768  RB1810   RB1901
 2018-07-18    0.225529  RB1810   RB1901
-```
-
-### 3.2 获取私募指数数据
-
-示例代码
-
-```python
-import akshare as ak
-zdzk_fund_index_df = ak.zdzk_fund_index(index_type=32, plot=True)
-print(zdzk_fund_index_df)
-```
-
-结果显示: 日期, 指数数值
-
-```
-2014-12-26    1000.000000
-2015-01-02     985.749098
-2015-01-09    1032.860242
-2015-01-16    1039.978586
-2015-01-23    1046.235945
-                 ...     
-2019-08-23    1390.816835
-2019-08-30    1397.684642
-2019-09-06    1402.711847
-2019-09-13    1401.723599
-2019-09-20    1386.570103
 ```

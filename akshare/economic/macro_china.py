@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2020/10/18 20:08
+Date: 2021/1/11 18:08
 Desc: 金十数据-数据中心-中国-中国宏观
 https://datacenter.jin10.com/economic
 首页-价格指数-中价-价格指数-中国电煤价格指数(CTCI)
@@ -723,33 +723,9 @@ def macro_china_market_margin_sz():
 # 金十数据中心-经济指标-中国-其他-上海融资融券报告
 def macro_china_market_margin_sh():
     """
-    上海融资融券报告, 数据区间从20100331-至今
+    上海融资融券报告, 数据区间从 20100331-至今
     https://datacenter.jin10.com/reportType/dc_market_margin_sse
     :return: pandas.DataFrame
-                        融资买入额(元)      融资余额(元)    融券卖出量(股)      融券余量(股)    融券余额(元)  \
-    2010-03-31       5824813      5866316        2900        24142       3100
-    2010-04-01       6842114      1054024        2200        17325          0
-    2010-04-02       6762781       207516        1500        11929          0
-    2010-04-06      10091243      3329461        1400        10267          0
-    2010-04-07      25086826     15141395        2800        38418       1400
-                      ...          ...         ...          ...        ...
-    2019-12-12  544762356034  15711214718  1449227888  10838303677   87173923
-    2019-12-13  544431163367  23244118842  1444631533  10983715047  125984881
-    2019-12-16  548288053609  27740021378  1453192249  10964588638  113223026
-    2019-12-17  551516610507  35126663542  1457433748  11152939293  152548014
-    2019-12-18  554466188124  29684776793  1413650473  11107457966  122335778
-                   融资融券余额(元)
-    2010-03-31       5848955
-    2010-04-01       6859439
-    2010-04-02       6774710
-    2010-04-06      10101510
-    2010-04-07      25125244
-                      ...
-    2019-12-12  555600659711
-    2019-12-13  555414878414
-    2019-12-16  559252642247
-    2019-12-17  562669549800
-    2019-12-18  565573646090
     """
     t = time.time()
     res = requests.get(
@@ -816,7 +792,26 @@ def macro_china_market_margin_sh():
     temp_df.index = pd.to_datetime(temp_df.iloc[:, 0])
     temp_df = temp_df.iloc[:, 1:]
     temp_df.columns = [item["name"] for item in r.json()["data"]["keys"]][1:]
-    value_df = value_df.append(temp_df)
+
+    for_times = math.ceil(
+        int(str((temp_df.index[-1] - value_df.index[-1])).split(" ")[0]) / 20
+    )
+    big_df = temp_df
+    for i in tqdm(range(for_times)):
+        params = {
+            "max_date": temp_df.index[-1],
+            "category": "fs",
+            "attr_id": "1",
+            "_": str(int(round(t * 1000))),
+        }
+        r = requests.get(url, params=params, headers=headers)
+        temp_df = pd.DataFrame(r.json()["data"]["values"])
+        temp_df.index = pd.to_datetime(temp_df.iloc[:, 0])
+        temp_df = temp_df.iloc[:, 1:]
+        temp_df.columns = [item["name"] for item in r.json()["data"]["keys"]][1:]
+        big_df = big_df.append(temp_df)
+
+    value_df = value_df.append(big_df)
     value_df.drop_duplicates(inplace=True)
     value_df.sort_index(inplace=True)
     return value_df
@@ -1138,6 +1133,82 @@ def macro_china_fx_gold() -> pd.DataFrame:
         "黄金储备-环比",
     ]
     return temp_df
+
+
+def macro_china_stock_market_cap():
+    """
+    东方财富-全国股票交易统计表
+    http://data.eastmoney.com/cjsj/gpjytj.html
+    :return: 全国股票交易统计表
+    :rtype: pandas.DataFrame
+    """
+    url = "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
+    }
+    params = {
+        "cb": "",
+        "type": "GJZB",
+        "sty": "ZGZB",
+        "js": "({data:[(x)],pages:(pc)})",
+        "p": "1",
+        "ps": "200",
+        "mkt": "2",
+        "_": "1608999482942",
+    }
+    r = requests.get(url, params=params, headers=headers)
+    data_text = r.text
+    data_json = demjson.decode(data_text[data_text.find("{") : -1])
+    temp_df = pd.DataFrame([item.split(",") for item in data_json["data"]])
+    temp_df.columns = [
+        "数据日期",
+        "发行总股本-上海",
+        "发行总股本-深圳",
+        "市价总值-上海",
+        "市价总值-深圳",
+        "成交金额-上海",
+        "成交金额-深圳",
+        "成交量-上海",
+        "成交量-深圳",
+        "A股最高综合股价指数-上海",
+        "A股最高综合股价指数-深圳",
+        "A股最低综合股价指数-上海",
+        "A股最低综合股价指数-深圳",
+    ]
+    
+    return temp_df
+
+
+def macro_china_money_supply():
+    """
+    东方财富-货币供应量
+    http://data.eastmoney.com/cjsj/hbgyl.html
+    :return: 货币供应量
+    :rtype: pandas.DataFrame
+    """
+    url = "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx"
+    params = {"type": "GJZB", "sty": "ZGZB", "p": "1", "ps": "200", "mkt": "11"}
+    r = requests.get(url=url, params=params)
+    data_text = r.text
+    tmp_list = data_text[data_text.find("[") + 2 : -3]
+    tmp_list = tmp_list.split('","')
+    res_list = []
+    for li in tmp_list:
+        res_list.append(li.split(","))
+    columns = [
+        "月份",
+        "货币和准货币(M2)数量(亿元)",
+        "货币和准货币(M2)同比增长",
+        "货币和准货币(M2)环比增长",
+        "货币(M1)数量(亿元)",
+        "货币(M1)同比增长",
+        "货币(M1)环比增长",
+        "流通中的现金(M0)数量(亿元)",
+        "流通中的现金(M0)同比增长",
+        "流通中的现金(M0)环比增长",
+    ]
+    data_df = pd.DataFrame(res_list, columns=columns)
+    return data_df
 
 
 def macro_china_cpi():
@@ -2291,6 +2362,12 @@ if __name__ == "__main__":
     # 中国-外汇和黄金储备
     macro_china_fx_gold_df = macro_china_fx_gold()
     print(macro_china_fx_gold_df)
+
+    macro_china_stock_market_cap_df = macro_china_stock_market_cap()
+    print(macro_china_stock_market_cap_df)
+
+    macro_china_money_supply_df = macro_china_money_supply()
+    print(macro_china_money_supply_df)
 
     macro_china_cpi_df = macro_china_cpi()
     print(macro_china_cpi_df)
