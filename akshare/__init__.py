@@ -1220,9 +1220,44 @@ amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚
 0.7.99: fix: fix stock_zh_a_daily interface
 0.8.1: add: add stock_report_fund_hold_detail interface
 0.8.2: fix: fix option_finance_board interface
+0.8.3: fix: fix stock_zh_a_daily interface
+0.8.4: fix: fix option interface
+0.8.5: fix: fix bond_investing_global interface
+0.8.6: add: add macro_china_shrzgm interface
+0.8.7: add: add stock_zh_a_tick_163_now interface
+0.8.8: fix: fix add PK to CZCE
+0.8.9: add: add futures delivery and spot interface
+0.8.10: fix: fix fund_em_portfolio_hold interface
+0.8.11: add: add futures_to_spot_dce interface
+0.8.12: add: add futures_delivery_shfe interface
+0.8.13: fix: fix stock_us_daily interface
+0.8.14: fix: fix fund_em_open_fund_rank interface
+0.8.15: fix: fix chinese_to_english interface
+0.8.16: fix: fix stock_a_pe interface
+0.8.17: add: add stock_financial_report_sina interface
+0.8.18: fix: fix futures_spot_price_daily interface
+0.8.19: add: add stock_margin_sse interface
+0.8.20: add: add stock_margin_detail_sse interface
+0.8.21: fix: fix stock_szse_summary interface
+0.8.22: fix: fix stock_zh_a_daily interface
+0.8.23: fix: fix covid_19_dxy interface
+0.8.24: fix: fix fund_em_value_estimation interface
+0.8.25: fix: fix stock_zh_index_daily_tx interface
+0.8.26: fix: fix stock_hk_daily interface
+0.8.27: fix: fix get_dce_rank_table interface
+0.8.28: fix: fix stock_em_analyst_rank interface
+0.8.29: add: add fund_rating interface
+0.8.30: add: add fund_manager interface
+0.8.31: fix: fix stock_zh_a_minute interface
+0.8.32: fix: fix get_dce_rank_table interface
+0.8.33: add: add stock_profit_forecast interface
+0.8.34: fix: fix index_investing_global interface
+0.8.35: add: add bond_zh_us_rate interface
+0.8.36: add: add stock_em_fhps interface
+0.8.37: add: add stock_em_yjkb interface
 """
 
-__version__ = "0.8.2"
+__version__ = "0.8.37"
 __author__ = "Albert King"
 
 import sys
@@ -1232,6 +1267,50 @@ if sys.version_info < (3, 7):
     sys.exit(1)
 
 del sys
+
+"""
+分红配送
+"""
+from akshare.stock_feature.stock_em_fhps import stock_em_fhps
+
+"""
+中美国债收益率
+"""
+from akshare.bond.bond_em import bond_zh_us_rate
+
+"""
+盈利预测
+"""
+from akshare.stock_fundamental.stock_profit_forecast import stock_profit_forecast
+
+"""
+基金经理
+"""
+from akshare.fund.fund_manager import fund_manager
+
+"""
+基金评级
+"""
+from akshare.fund.fund_rating import fund_rating_sh, fund_rating_zs, fund_rating_ja, fund_rating_all
+
+"""
+融资融券数据
+"""
+from akshare.stock_feature.stock_sse_margin import stock_margin_detail_sse, stock_margin_sse
+
+"""
+期货交割和期转现
+"""
+from akshare.futures.futures_to_spot import (
+    futures_to_spot_czce,
+    futures_to_spot_shfe,
+    futures_to_spot_dce,
+    futures_delivery_dce,
+    futures_delivery_shfe,
+    futures_delivery_czce,
+    futures_delivery_match_dce,
+    futures_delivery_match_czce
+)
 
 """
 基金持仓
@@ -1261,12 +1340,25 @@ from akshare.stock_feature.stock_em_yzxdr import stock_em_yzxdr
 """
 大宗交易
 """
-from akshare.stock.stock_dzjy import stock_dzjy_sctj, stock_dzjy_mrmx, stock_dzjy_mrtj, stock_dzjy_hygtj, stock_dzjy_yybph, stock_dzjy_hyyybtj
+from akshare.stock.stock_dzjy import (
+    stock_dzjy_sctj,
+    stock_dzjy_mrmx,
+    stock_dzjy_mrtj,
+    stock_dzjy_hygtj,
+    stock_dzjy_yybph,
+    stock_dzjy_hyyybtj,
+)
 
 """
 国证指数
 """
-from akshare.index.index_cni import index_cni_hist, index_cni_all, index_cni_detail, index_cni_detail_hist, index_cni_detail_hist_adjust
+from akshare.index.index_cni import (
+    index_cni_hist,
+    index_cni_all,
+    index_cni_detail,
+    index_cni_detail_hist,
+    index_cni_detail_hist_adjust,
+)
 
 """
 金十数据-新闻资讯
@@ -1393,7 +1485,10 @@ from akshare.index.zh_stock_index_csindex import stock_zh_index_hist_csindex
 """
 股票基金持仓数据
 """
-from akshare.stock.stock_fund_hold import stock_report_fund_hold, stock_report_fund_hold_detail
+from akshare.stock.stock_fund_hold import (
+    stock_report_fund_hold,
+    stock_report_fund_hold_detail,
+)
 
 """
 期货分钟数据
@@ -1506,6 +1601,7 @@ stock-fundamental
 """
 from akshare.stock_fundamental.stock_finance import (
     stock_financial_abstract,
+    stock_financial_report_sina,
     stock_financial_analysis_indicator,
     stock_add_stock,
     stock_ipo_info,
@@ -1545,7 +1641,7 @@ from akshare.hf.hf_sp500 import hf_sp_500
 """
 stock_em_yjyg
 """
-from akshare.stock_feature.stock_em_yjyg import stock_em_yjyg, stock_em_yysj
+from akshare.stock_feature.stock_em_yjyg import stock_em_yjyg, stock_em_yysj, stock_em_yjkb
 
 """
 stock
@@ -1942,7 +2038,7 @@ from akshare.index.index_cons import (
     index_stock_hist,
     index_stock_cons_sina,
     index_stock_cons_csindex,
-    stock_a_code_to_symbol
+    stock_a_code_to_symbol,
 )
 
 """
@@ -2146,6 +2242,7 @@ from akshare.ws.js_ws_quotes import watch_jinshi_quotes
 from akshare.stock.zh_stock_a_tick_tx_163 import (
     stock_zh_a_tick_tx,
     stock_zh_a_tick_163,
+    stock_zh_a_tick_163_now,
     stock_zh_a_tick_tx_js,
 )
 
@@ -2359,6 +2456,7 @@ from akshare.economic.macro_china import (
     macro_china_non_man_pmi,
     macro_china_rmb,
     macro_china_gdp_yearly,
+    macro_china_shrzgm,
     macro_china_ppi_yearly,
     macro_china_cx_services_pmi_yearly,
     macro_china_market_margin_sh,
@@ -2495,7 +2593,11 @@ from akshare.qhkc_web.qhkc_fund import (
 """
 大宗商品现货价格及基差
 """
-from akshare.futures.futures_basis import futures_spot_price_daily, futures_spot_price, futures_spot_price_previous
+from akshare.futures.futures_basis import (
+    futures_spot_price_daily,
+    futures_spot_price,
+    futures_spot_price_previous,
+)
 
 """
 期货持仓成交排名数据

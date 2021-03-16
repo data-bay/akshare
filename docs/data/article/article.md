@@ -1,4 +1,4 @@
-## [AkShare](https://github.com/jindaxiang/akshare) 波动率数据
+## [AKShare](https://github.com/jindaxiang/akshare) 波动率数据
 
 ### 已实现波动率数据
 
@@ -398,7 +398,7 @@ equity premium prediction 中的标普 500 和常用经济指标
 ```python
 import akshare as ak
 agoyal_stock_return_df = ak.agoyal_stock_return(indicator="monthly")
-print(agoyal_stock_return_df.columns)
+print(agoyal_stock_return_df)
 ```
 
 数据示例

@@ -327,15 +327,20 @@ def covid_19_dxy(indicator: str = "浙江省") -> pd.DataFrame:
                 data_text[data_text.find("= [{") + 2 : data_text.rfind("catch") - 1]
             )
             data_df = pd.DataFrame(data_text_json)
+            # indicator = "浙江省"
             sub_area = pd.DataFrame(
                 data_df[data_df["provinceName"] == indicator]["cities"].values[0]
             )
             if sub_area.empty:
                 return None
-            sub_area.columns = ["区域", "现在确诊人数", "确诊人数", "疑似人数", "治愈人数", "死亡人数", "高危人数", "中危人数", "id"]
-            sub_area = sub_area[["区域", "现在确诊人数", "确诊人数", "疑似人数", "治愈人数", "死亡人数", "高危人数", "中危人数", ]]
+            if sub_area.shape[1] != 10:
+                sub_area.columns = ["区域", "现在确诊人数", "确诊人数", "疑似人数", "治愈人数", "死亡人数", "高危人数", "中危人数", "id", "_", "_"]
+                sub_area = sub_area[["区域", "现在确诊人数", "确诊人数", "疑似人数", "治愈人数", "死亡人数", "高危人数", "中危人数", ]]
+            else:
+                sub_area.columns = ["区域", "现在确诊人数", "确诊人数", "疑似人数", "治愈人数", "死亡人数", "高危人数", "中危人数", "id", "_"]
+                sub_area = sub_area[["区域", "现在确诊人数", "确诊人数", "疑似人数", "治愈人数", "死亡人数", "高危人数", "中危人数", ]]
             return sub_area
-        except IndexError as e:
+        except IndexError:
             print("请输入省/市的全称, 如: 浙江省/上海市 等")
 
 
@@ -516,10 +521,10 @@ def internal_flow_history(area: str = "北京市", date: str = "20200412") -> pd
 
 
 def migration_scale_baidu(
-    area: str = "乌鲁木齐市",
+    area: str = "佛山市",
     indicator: str = "move_out",
-    start_date: str = "20190112",
-    end_date: str = "20200401",
+    start_date: str = "20200110",
+    end_date: str = "20200315",
 ) -> pd.DataFrame:
     """
     百度地图慧眼-百度迁徙-迁徙规模
@@ -573,7 +578,7 @@ def covid_19_trip() -> pd.DataFrame:
     return temp_df
 
 
-def covid_19_trace():
+def covid_19_trace() -> pd.DataFrame:
     """
     腾讯新闻-疫情-病患轨迹
     https://news.qq.com/hdh5/hebeicomeon.htm#/?ADTAG=yqi
@@ -595,7 +600,7 @@ def covid_19_trace():
             'page_size': '200',
             'table_id': '5ff7d526b34a3525c3169a0b',
             'key': 'NFPBZ-D2N3P-T7FDV-VLBQ6-4DVM7-JQFCR',
-            'fliter':'',
+            'fliter': '',
         }
         headers = {
             "Referer": "https://news.qq.com/",
@@ -668,7 +673,7 @@ def covid_19_hist_province(province: str = "湖北省") -> pd.DataFrame:
 
 def covid_19_history() -> pd.DataFrame:
     """
-    接口最好用代理速度比较快, 2019-12-01开始
+    接口最好用代理速度比较快, 2019-12-01 开始
     https://github.com/canghailan/Wuhan-2019-nCoV
     :return: 疫情数据
     :rtype: pandas.DataFrame
@@ -824,7 +829,7 @@ if __name__ == "__main__":
     print(internal_flow_history_df)
 
     migration_scale_baidu_df = migration_scale_baidu(
-        area="上海市", indicator="move_in", start_date="20190113", end_date="20200512"
+        area="上海市", indicator="move_in", start_date="20200110", end_date="20200315"
     )
     print(migration_scale_baidu_df)
 

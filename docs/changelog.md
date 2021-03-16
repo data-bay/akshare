@@ -1,41 +1,33 @@
-# [AkShare](https://github.com/jindaxiang/akshare) 版本更新
+# [AKShare](https://github.com/jindaxiang/akshare) 版本更新
 
 ```
-0.1.25
-增加奇货可查指数接口 e.g. ak.get_qhkc_data("商品指数")
+0.1.25: 增加奇货可查指数接口 e.g. ak.get_qhkc_data("商品指数")
 
-0.1.26
-修复代码格式问题
+0.1.26: 修复代码格式问题
 
-0.1.27
-修复说明格式问题
+0.1.27: 修复说明格式问题
 
-0.1.28
-更新说明文档
+0.1.28: 更新说明文档
 
-0.1.29
-规范说明文档格式
+0.1.29: 规范说明文档格式
 
-0.1.30
-规范说明文档格式
+0.1.30: 规范说明文档格式
 
-0.1.31
-规范 cot.py 函数说明
+0.1.31: 规范 cot.py 函数说明
 
-0.1.32
-update basis.py
+0.1.32: update basis.py
 
-0.1.33
+0.1.33: 
 增加奇货可查数据三个接口:
 get_qhkc_index, get_qhkc_index_trend, get_qhkc_index_profit_loss
 使用方法请 help(get_qhkc_index) 查看
 
-0.1.34
+0.1.34: 
 增加奇货可查-资金数据三个接口:
 get_qhkc_fund_position_change, get_qhkc_fund_bs, get_qhkc_fund_position
 使用方法请 help(get_qhkc_fund_position_change) 查看
 
-0.1.35
+0.1.35: 
 增加奇货可查-工具-外盘比价接口:
 get_qhkc_tool_foreign
 使用方法请 help(get_qhkc_tool_foreign) 查看
@@ -1864,4 +1856,74 @@ amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚
 0.8.1: add: add stock_report_fund_hold_detail interface
 
 0.8.2: fix: fix option_finance_board interface
+
+0.8.3: fix: fix stock_zh_a_daily interface
+
+0.8.4: fix: fix option interface
+
+0.8.5: fix: fix bond_investing_global interface
+
+0.8.6: add: add macro_china_shrzgm interface
+
+0.8.7: add: add stock_zh_a_tick_163_now interface
+
+0.8.8: fix: fix add PK to CZCE
+
+0.8.9: add: add futures delivery and spot interface
+
+0.8.10: fix: fix fund_em_portfolio_hold interface
+
+0.8.11: add: add futures_to_spot_dce interface
+
+0.8.12: add: add futures_delivery_shfe interface
+
+0.8.13: fix: fix stock_us_daily interface
+
+0.8.14: fix: fix fund_em_open_fund_rank interface
+
+0.8.15: fix: fix chinese_to_english interface
+
+0.8.16: fix: fix stock_a_pe interface
+
+0.8.17: add: add stock_financial_report_sina interface
+
+0.8.18: fix: fix futures_spot_price_daily interface
+
+0.8.19: add: add stock_margin_sse interface
+
+0.8.20: add: add stock_margin_detail_sse interface
+
+0.8.21: fix: fix stock_szse_summary interface
+
+0.8.22: fix: fix stock_zh_a_daily interface
+
+0.8.23: fix: fix covid_19_dxy interface
+
+0.8.24: fix: fix fund_em_value_estimation interface
+
+0.8.25: fix: fix stock_zh_index_daily_tx interface
+
+0.8.26: fix: fix stock_hk_daily interface
+
+0.8.27: fix: fix get_dce_rank_table interface
+
+0.8.28: fix: fix stock_em_analyst_rank interface
+
+0.8.29: add: add fund_rating interface
+
+0.8.30: add: add fund_manager interface
+
+0.8.31: fix: fix stock_zh_a_minute interface
+
+0.8.32: fix: fix get_dce_rank_table interface
+
+0.8.33: add: add stock_profit_forecast interface
+
+0.8.34: fix: fix index_investing_global interface
+
+0.8.35: add: add bond_zh_us_rate interface
+
+0.8.36: add: add stock_em_fhps interface
+
+0.8.37: add: add stock_em_yjkb interface
 ```

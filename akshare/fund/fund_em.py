@@ -111,7 +111,7 @@ def fund_em_open_fund_info(
     """
     东方财富网站-天天基金网-基金数据-开放式基金净值
     http://fund.eastmoney.com/fund.html#os_0;isall_0;ft_;pt_1
-    :param fund: 基金代码, 可以通过调用 fund_em_open_fund_daily 获取所有开放式基金代码
+    :param fund: 基金代码; 可以通过调用 fund_em_open_fund_daily 获取所有开放式基金代码
     :type fund: str
     :param indicator: 需要获取的指标
     :type indicator: str
@@ -159,7 +159,7 @@ def fund_em_open_fund_info(
     if indicator == "累计净值走势":
         data_json = demjson.decode(
             text[
-                text.find("Data_ACWorthTrend") + 20 : text.find("Data_grandTotal") - 16
+                text.find("Data_ACWorthTrend") + 20: text.find("Data_grandTotal") - 16
             ]
         )
         temp_df = pd.DataFrame(data_json)
@@ -214,7 +214,7 @@ def fund_em_open_fund_info(
         data_json = demjson.decode(
             text[
                 text.find("Data_rateInSimilarType")
-                + 25 : text.find("Data_rateInSimilarPersent")
+                + 25: text.find("Data_rateInSimilarPersent")
                 - 16
             ]
         )
@@ -675,33 +675,42 @@ def fund_em_etf_fund_info(fund: str = "511280") -> pd.DataFrame:
     return temp_df
 
 
-def fund_em_value_estimation(symbol: str = "") -> pd.DataFrame:
+def fund_em_value_estimation(symbol: str = "全部") -> pd.DataFrame:
     """
     东方财富网-数据中心-净值估算
     http://fund.eastmoney.com/fundguzhi.html
-    :param symbol: choice of {'股票指数', '联接基金', '混合型', '股票型', 'QDII-指数', '债券型', '定开债券', '债券指数', '其他创新', 'QDII', '混合-FOF', '股票-FOF'}
+    :param symbol: choice of {'全部', '股票型', '混合型', '债券型', '指数型', 'QDII', 'ETF联接', 'LOF', '场内交易基金'}
     :type symbol: str
     :return: 近期净值估算数据
     :rtype: pandas.DataFrame
     """
+    symbol_map = {
+        "全部": 1,
+        "股票型": 2,
+        "混合型": 3,
+        "债券型": 4,
+        "指数型": 5,
+        "QDII": 6,
+        "ETF联接": 7,
+        "LOF": 8,
+        "场内交易基金": 9,
+    }
     url = "http://api.fund.eastmoney.com/FundGuZhi/GetFundGZList"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36",
-        "Referer": "http://fund.eastmoney.com/fundguzhi.html",
+        "Referer": "http://fund.eastmoney.com/",
     }
     params = {
-        "type": "1",
+        "type": symbol_map[symbol],
         "sort": "3",
         "orderType": "desc",
         "canbuy": "0",
         "pageIndex": "1",
         "pageSize": "20000",
-        "callback": "jQuery18306504687615774458_1589361322986",
         "_": int(time.time() * 1000),
     }
     r = requests.get(url, params=params, headers=headers)
-    text_data = r.text
-    json_data = json.loads(text_data[text_data.find("{") : -1])
+    json_data = r.json()
     temp_df = pd.DataFrame(json_data["Data"]["list"])
     value_day = json_data["Data"]["gzrq"]
     cal_day = json_data["Data"]["gxrq"]
@@ -722,15 +731,15 @@ def fund_em_value_estimation(symbol: str = "") -> pd.DataFrame:
         "-",
         "-",
         "-",
+        "_",
         "-",
         "-",
-        "-",
-        "-",
-        f"{cal_day}-估算值",
-        f"{cal_day}-估算增长率",
-        "-",
+        "估算偏差",
+        f"{cal_day}-估算数据-估算值",
+        f"{cal_day}-估算数据-估算增长率",
+        f"{cal_day}-公布数据-日增长率",
         f"{value_day}-单位净值",
-        "-",
+        f"{cal_day}-公布数据-单位净值",
         "-",
         "基金名称",
         "-",
@@ -740,18 +749,19 @@ def fund_em_value_estimation(symbol: str = "") -> pd.DataFrame:
     temp_df = temp_df[
         [
             "基金代码",
-            "基金类型",
-            f"{cal_day}-估算值",
-            f"{cal_day}-估算增长率",
-            f"{value_day}-单位净值",
             "基金名称",
+            f"{cal_day}-估算数据-估算值",
+            f"{cal_day}-估算数据-估算增长率",
+            f"{cal_day}-公布数据-单位净值",
+            f"{cal_day}-公布数据-日增长率",
+            "估算偏差",
+            f"{value_day}-单位净值",
         ]
     ]
-    if symbol == "":
-        return temp_df
-    else:
-        temp_df = temp_df[temp_df["基金类型"] == symbol]
-        return temp_df
+    temp_df.reset_index(inplace=True)
+    temp_df["index"] = range(1, len(temp_df)+1)
+    temp_df.rename(columns={"index": "序号"}, inplace=True)
+    return temp_df
 
 
 def fund_em_hk_fund_hist(code: str = '1002200683', symbol: str = "历史净值明细") -> pd.DataFrame:
@@ -854,7 +864,7 @@ if __name__ == "__main__":
     fund_em_open_fund_daily_df = fund_em_open_fund_daily()
     print(fund_em_open_fund_daily_df)
     time.sleep(3)
-    fund_em_info_net_df = fund_em_open_fund_info(fund="710001", indicator="单位净值走势")
+    fund_em_info_net_df = fund_em_open_fund_info(fund="000471", indicator="单位净值走势")
     print(fund_em_info_net_df)
     time.sleep(3)
     fund_em_info_net_acc_df = fund_em_open_fund_info(fund="710001", indicator="累计净值走势")

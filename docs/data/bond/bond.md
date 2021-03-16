@@ -1,4 +1,4 @@
-## [AkShare](https://github.com/jindaxiang/akshare) 债券数据
+## [AKShare](https://github.com/jindaxiang/akshare) 债券数据
 
 ### 债券基础信息
 
@@ -816,7 +816,7 @@ print(bond_convert_jsl_df)
 
 目标地址: https://cn.investing.com/rates-bonds/
 
-描述: 获取全球政府债券行情与收益率, 由于涉及国家和债券多(**近1000**个债券)具体参见[国家-债券目录](https://cn.investing.com/rates-bonds/world-government-bonds?maturity_from=10&maturity_to=310)
+描述: 获取全球政府债券行情与收益率, 由于涉及国家和债券多(**近1000**个债券)具体参见[国家-债券目录](https://cn.investing.com/rates-bonds/world-government-bonds?maturity_from=10&maturity_to=310) 
 
 具体的调用方式可以参照: 
 
@@ -824,7 +824,7 @@ print(bond_convert_jsl_df)
 2. 复制网页上国家名称(推荐复制), 如 **中国**;
 3. 复制所显示的具体债券名称(推荐复制, 如果英文中间有空格, 也需要保留空格), 如 **中国1年期国债**; 也可以调用 **ak.bond_investing_global_country_name_url(country="美国")** 获取需要国家的具体指数名称
 4. 在安装 [AkShare](https://github.com/jindaxiang/akshare) 后输入, 如 **ak.bond_investing_global(country="中国", index_name="中国1年期国债", period="每周", start_date="2000-01-01", end_date="2020-06-06")**;
-5. 稍后就可以获得所需数据.
+5. 稍后就可以获得所需数据, 由于服务器在国外, 如访问失败, 请稍后重试.
 
 限量: 单次返回某一个国家的具体某一个指数, 建议用 for 循环获取多个国家的多个指数, 注意不要大量获取, 以免给对方服务器造成压力!
 
@@ -835,8 +835,8 @@ print(bond_convert_jsl_df)
 | country | str  | Y    |   country="中国"|
 | index_name | str  | Y    |  index_name="中国1年期国债"; 可以通过 ak.bond_investing_global_country_name_url(country="美国") 获取|
 | period | str  | Y    |  period="每月"; choice of {"每日", "每周", "每月"}|
-| start_date | str  | Y    |  start_date='2000/01/01'|
-| end_date | str  | Y    |  end_date='2019/10/17'|
+| start_date | str  | Y    |  start_date='2000-01-01'|
+| end_date | str  | Y    |  end_date='2019-10-17'|
 
 输出参数
 
@@ -847,7 +847,7 @@ print(bond_convert_jsl_df)
 | 开盘      | float   | Y        | 开盘        |
 | 高        | float   | Y        |高    |
 | 低         | float | Y        | 低         |
-| 交易量      | str | Y        | 涨跌幅, 注意单位: %      |
+| 交易量      | str | Y        | 涨跌幅; 注意单位: %      |
 
 接口示例
 
@@ -975,4 +975,61 @@ print(bond_china_close_return_df)
 1029  2020-08-31   19.0  3.9473  4.0192  4.4417
 1030  2020-08-31   19.5  3.9554  4.0298     ---
 1031  2020-08-31   20.0  3.9635  4.0403     ---
+```
+
+### 中美国债收益率
+
+接口: bond_zh_us_rate
+
+目标地址: http://data.eastmoney.com/cjsj/zmgzsyl.html
+
+描述: 获取中美国债收益率历史数据
+
+输入参数
+
+| 名称   | 类型 | 必选 | 描述       |
+| -------- | ---- | ---- | --- |
+| - | -  | -    |   -|
+
+输出参数
+
+| 名称          | 类型 | 默认显示 | 描述           |
+| --------------- | ----- | -------- | ---------------- |
+| 日期      | str   | Y        | -  |
+| 中国国债收益率2年      | float   | Y        | -   |
+| 中国国债收益率5年      | float   | Y        | -        |
+| 中国国债收益率10年        | float   | Y        |-    |	
+| 中国国债收益率30年        | float   | Y        |-    |	
+| 中国国债收益率10年-2年        | float   | Y        |-    |	
+| 中国GDP年增率        | float   | Y        |-    |	
+| 美国国债收益率2年        | float   | Y        |-    |	
+| 美国国债收益率5年        | float   | Y        |-    |	
+| 美国国债收益率10年        | float   | Y        |-    |	
+| 美国国债收益率30年        | float   | Y        |-    |	
+| 美国国债收益率10年-2年        | float   | Y        |-    |	
+| 美国GDP年增率        | float   | Y        |-    |	
+
+接口示例
+
+```python
+import akshare as ak
+bond_zh_us_rate_df = ak.bond_zh_us_rate()
+print(bond_zh_us_rate_df)
+```
+
+数据示例
+
+```
+              日期  中国国债收益率2年  中国国债收益率5年  ...  美国国债收益率30年  美国国债收益率10年-2年  美国GDP年增率
+0     2021-03-12     2.8860     3.0999  ...        2.40           1.50       NaN
+1     2021-03-11     2.8842     3.0949  ...        2.29           1.40       NaN
+2     2021-03-10     2.8706     3.0860  ...        2.24           1.37       NaN
+3     2021-03-09     2.8494     3.1015  ...        2.26           1.38       NaN
+4     2021-03-08     2.8193     3.0898  ...        2.31           1.42       NaN
+          ...        ...        ...  ...         ...            ...       ...
+7866  1990-12-26        NaN        NaN  ...        8.30           0.88       NaN
+7867  1990-12-24        NaN        NaN  ...        8.36           0.85       NaN
+7868  1990-12-21        NaN        NaN  ...        8.28           0.81       NaN
+7869  1990-12-20        NaN        NaN  ...        8.22           0.80       NaN
+7870  1990-12-19        NaN        NaN  ...        8.19           0.79       NaN
 ```

@@ -1,10 +1,10 @@
-# [AkShare](https://github.com/jindaxiang/akshare) 快速入门
+# [AKShare](https://github.com/jindaxiang/akshare) 快速入门
 
 ## 查看数据
 
-具体函数使用详情, 请查看 [AkShare 文档](https://akshare.readthedocs.io/) 每个接口的示例代码
+具体函数使用详情, 请查看 [AKShare 文档](https://akshare.readthedocs.io/) 每个接口的示例代码
 
-[AkShare](https://github.com/jindaxiang/akshare) 数据接口一览表
+[AKShare](https://github.com/jindaxiang/akshare) 数据接口一览表
 
 ```
  # 交易所期货数据
@@ -276,6 +276,7 @@
  "macro_bank_india_interest_rate"  # 印度央行决议报告
  "macro_bank_brazil_interest_rate"  # 巴西央行决议报告
  # 中国
+ "macro_china_shrzgm"  # 社会融资规模增量统计
  "macro_china_gdp_yearly"  # 金十数据中心-经济指标-中国-国民经济运行状况-经济状况-中国GDP年率报告
  "macro_china_cpi_yearly"  # 金十数据中心-经济指标-中国-国民经济运行状况-物价水平-中国CPI年率报告
  "macro_china_cpi_monthly"  # 金十数据中心-经济指标-中国-国民经济运行状况-物价水平-中国CPI月率报告
@@ -512,6 +513,7 @@
  "stock_sector_fund_flow_rank"  # 板块资金流排名
  # 股票基本面数据
  "stock_financial_abstract"  # 财务摘要
+ "stock_financial_report_sina"  # 三大财务报表
  "stock_financial_analysis_indicator"  # 财务指标
  "stock_add_stock"  # 股票增发
  "stock_ipo_info"  # 股票新股
@@ -678,11 +680,38 @@
  "macro_china_money_supply"  # 中国货币供应量
  # 银行排名
  "bank_rank_banker"  # 全球银行排名数据及各项指标
+ # 期货交割和期转现
+ "futures_to_spot_czce"  # 郑商所期转现
+ "futures_to_spot_shfe"  # 上期所期转现
+ "futures_to_spot_dce"  # 大商所期转现
+ "futures_delivery_dce"  # 大商所交割统计
+ "futures_delivery_czce"  # 郑商所交割统计
+ "futures_delivery_shfe"  # 上期所交割统计
+ "futures_delivery_match_dce"  # 大商所交割配对
+ "futures_delivery_match_czce"  # 郑商所交割配对
+ # 融资融券
+ "stock_margin_sse"  # 上海证券交易所-融资融券汇总
+ "stock_margin_detail_sse"  # 上海证券交易所-融资融券详情
+ # 基金评级
+ "fund_rating_all"  # 基金评级-基金评级总汇
+ "fund_rating_sh"  # 基金评级-上海证券评级
+ "fund_rating_zs"  # 基金评级-招商证券评级
+ "fund_rating_ja"  # 基金评级-济安金信评级
+ # 基金经理
+ "fund_manager"  # 基金经理-基金经理大全
+ # 盈利预测
+ "stock_profit_forecast"  # 盈利预测
+ # 中美国债收益率
+ "bond_zh_us_rate"  # 中美国债收益率
+ # 分红配送
+ "stock_em_fhps"  # 分红配送
+ # 业绩快报
+ "stock_em_yjkb"  # 业绩快报
 ```
 
 ## 案例演示
 
-### 3.1 获取展期收益率
+### 获取展期收益率
 
 示例代码
 
